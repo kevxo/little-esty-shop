@@ -11,6 +11,8 @@ RSpec.describe Invoice, type: :model do
   describe 'class method methods' do
     before(:each) do
       @merchant = create(:merchant)
+      @merchant2 = create(:merchant)
+      @merchant3 = create(:merchant)
 
       @customer1 = create(:customer)
       @customer2 = create(:customer)
@@ -22,6 +24,10 @@ RSpec.describe Invoice, type: :model do
       @item2 = create(:item, merchant_id: @merchant.id)
       @item3 = create(:item, merchant_id: @merchant.id)
       @item4 = create(:item, merchant_id: @merchant.id)
+      @item5 = create(:item, merchant_id: @merchant2.id)
+      @item6 = create(:item, merchant_id: @merchant2.id)
+      @item7 = create(:item, merchant_id: @merchant3.id)
+      @item8 = create(:item, merchant_id: @merchant3.id)
 
       @invoice1 = create(:invoice, customer_id: @customer1.id)
       @invoice2 = create(:invoice, customer_id: @customer1.id)
@@ -52,9 +58,21 @@ RSpec.describe Invoice, type: :model do
     end
 
     it 'top 5 customers with successful transactions' do
-      expected = [@customer2, @customer1, @customer3, @customer4, @customer5]
+      expected = [
+        "#{@customer2.first_name} #{@customer2.last_name} - 3",
+        "#{@customer1.first_name} #{@customer1.last_name} - 2",
+        "#{@customer3.first_name} #{@customer3.last_name} - 1",
+        "#{@customer4.first_name} #{@customer4.last_name} - 1",
+        "#{@customer5.first_name} #{@customer5.last_name} - 1"
+      ]
 
-      expect(Invoice.top_5).to eq(expected)
+      expect(Invoice.most_successful_transactions(@merchant.id)).to eq(expected)
+    end
+
+    it 'top 5 customers with successful transactions, with diffrent merchant' do
+      expected = []
+
+      expect(Invoice.most_successful_transactions(@merchant2.id)).to eq(expected)
     end
   end
 end

@@ -69,6 +69,11 @@ RSpec.describe 'Merchant Dashboard' do
 
         within '.top-5-customers' do
           expect(page).to have_content('Top 5 Customers')
+          expect(page).to have_content("#{@customer2.first_name} #{@customer2.last_name} - 3")
+          expect(page).to have_content("#{@customer1.first_name} #{@customer1.last_name} - 2")
+          expect(page).to have_content("#{@customer3.first_name} #{@customer3.last_name} - 1")
+          expect(page).to have_content("#{@customer4.first_name} #{@customer4.last_name} - 1")
+          expect(page).to have_content("#{@customer5.first_name} #{@customer5.last_name} - 1")
         end
       end
     end
