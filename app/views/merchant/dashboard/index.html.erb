@@ -6,3 +6,12 @@
     <li><%= link_to "Invoices",  "/merchant/#{@merchant.id}/invoices" %></li>
   </ul>
 </div>
+
+<div>
+  <div class="top-5-customers">
+    <h2>Top 5 Customers</h2>
+    <% @top_successful_transactions.each do |customer| %>
+      <h4><%= customer %></h4>
+    <% end %>
+  </div>
+</div>
