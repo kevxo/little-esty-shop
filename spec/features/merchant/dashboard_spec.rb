@@ -76,6 +76,17 @@ RSpec.describe 'Merchant Dashboard' do
           expect(page).to have_content("#{@customer5.first_name} #{@customer5.last_name} - 1")
         end
       end
+
+      it 'should see list of unshipped items with invoice id and date. From older to new' do
+        visit "/merchant/#{@merchant.id}/dashboard"
+        @item1.ready_to_ship do |invoice|
+          within '.ready-to-ship' do
+            expect(page).to have_content('Ready to Ship')
+            expect(page).to have_link("#{invoice.invoice_id}")
+            expect(page).to have_content("#{@item1.name} Date: #{invoice.created_at.strftime('%A %B %d, %Y')} ID: #{invoice.invoice_id}")
+          end
+        end
+      end
     end
   end
 end
