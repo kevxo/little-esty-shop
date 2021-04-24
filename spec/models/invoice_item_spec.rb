@@ -7,6 +7,6 @@ RSpec.describe InvoiceItem, type: :model do
   end
 
   describe 'validations' do
-    it { should define_enum_for(:result).with(%i[packaged shipped pending]) }
+    it { should define_enum_for(:status).with(%i[packaged shipped pending]) }
   end
 end
