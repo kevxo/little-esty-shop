@@ -14,4 +14,13 @@
       <h4><%= customer %></h4>
     <% end %>
   </div>
+
+  <div class="ready-to-ship">
+    <h2>Ready to Ship</h2>
+    <% @merchant.items.each do |item| %>
+      <% item.ready_to_ship.each do |invoice|%>
+        <h4><%= item.name %> Date: <%= invoice.created_at.strftime('%A %B %d, %Y')%> Id: <%= link_to "#{invoice.invoice_id}", "/merchant/#{@merchant.id}/invoices/#{invoice.invoice_id}" %></h4>
+      <% end %>
+    <% end %>
+  </div>
 </div>
