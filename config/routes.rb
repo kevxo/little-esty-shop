@@ -3,5 +3,7 @@ Rails.application.routes.draw do
 
   namespace :merchant do
     get '/:id/dashboard', to: 'dashboard#index'
+
+    get '/:id/items', to: 'items#index'
   end
 end
