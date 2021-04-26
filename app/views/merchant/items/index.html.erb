@@ -3,7 +3,7 @@
 <div class="my-items">
     <% @merchant.items.each do |item| %>
       <ul>
-        <li><%= item.name %></li>
+        <li><%= link_to item.name, "/merchant/#{@merchant.id}/items/#{item.id}" %></li>
       </ul>
     <% end %>
 </div>
