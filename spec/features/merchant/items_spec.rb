@@ -86,7 +86,7 @@ RSpec.describe 'As a merchant' do
       click_button 'Update'
 
       expect(current_path).to eq("/merchant/#{merchant.id}/items/#{item1.id}")
-      expect(page).to have_content('Item has been successfully updated!')
+      expect(page).to have_content('Item has been updated successfully!')
     end
   end
 end

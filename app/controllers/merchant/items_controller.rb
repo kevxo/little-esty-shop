@@ -18,7 +18,7 @@ class Merchant::ItemsController < ApplicationController
     merchant = Merchant.find(params[:id])
     item.update(item_params)
 
-    flash[:notice] = 'Item has been updated successfully'
+    flash[:notice] = 'Item has been updated successfully!'
     redirect_to "/merchant/#{merchant.id}/items/#{item.id}"
   end
 
