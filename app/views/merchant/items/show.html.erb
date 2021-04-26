@@ -8,3 +8,5 @@
     <li>Current Selling Price: $<%= @item.unit_price %>
   </ul>
 </div>
+
+<%= link_to 'Update Item',  "/merchant/#{@merchant.id}/items/#{@item.id}/edit"%>
