@@ -5,5 +5,6 @@ Rails.application.routes.draw do
     get '/:id/dashboard', to: 'dashboard#index'
 
     get '/:id/items', to: 'items#index'
+    get '/:id/items/:item_id', to: 'items#show'
   end
 end
