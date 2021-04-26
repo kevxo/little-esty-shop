@@ -58,5 +58,35 @@ RSpec.describe 'As a merchant' do
         expect(page).to have_content("Current Selling Price: $#{item1.unit_price}")
       end
     end
+
+    it "should have a link to update an Item" do
+      merchant = create(:merchant)
+
+      item1 = create(:item, merchant_id: merchant.id)
+
+      visit "/merchant/#{merchant.id}/items/#{item1.id}"
+
+      expect(page).to have_link('Update Item')
+      click_link 'Update Item'
+
+      expect(current_path).to eq("/merchant/#{merchant.id}/items/#{item1.id}/edit")
+    end
+
+    it "should fill out a form to update Item" do
+      merchant = create(:merchant)
+
+      item1 = create(:item, merchant_id: merchant.id)
+
+      visit "/merchant/#{merchant.id}/items/#{item1.id}/edit"
+
+      fill_in :name, with: 'Awesome Macboook Pro 2000'
+      fill_in :description, with: 'Works great and there 3 in the whole world'
+      fill_in :unit_price, with: 2000
+
+      click_button 'Update'
+
+      expect(current_path).to eq("/merchant/#{merchant.id}/items/#{item1.id}")
+      expect(page).to have_content('Item has been successfully updated!')
+    end
   end
 end
