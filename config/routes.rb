@@ -8,5 +8,6 @@ Rails.application.routes.draw do
     get '/:id/items/:item_id', to: 'items#show'
     get '/:id/items/:item_id/edit', to: 'items#edit'
     patch '/:id/items/:item_id', to: 'items#update'
+    patch '/:id/items', to: 'items#status_update'
   end
 end
