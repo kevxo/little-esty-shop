@@ -22,9 +22,24 @@ class Merchant::ItemsController < ApplicationController
     redirect_to "/merchant/#{merchant.id}/items/#{item.id}"
   end
 
+  def status_update
+    merchant = Merchant.find(params[:id])
+    item = Item.find(params[:item_id])
+
+    item.status = if item.status == 'Enabled'
+                    'Disabled'
+                  else
+                    'Enabled'
+                  end
+
+
+    item.save
+    redirect_to "/merchant/#{merchant.id}/items"
+  end
+
   private
 
-    def item_params
-      params.permit(:name, :description, :unit_price)
-    end
+  def item_params
+    params.permit(:name, :description, :unit_price)
+  end
 end
