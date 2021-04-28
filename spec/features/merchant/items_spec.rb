@@ -38,9 +38,9 @@ RSpec.describe 'As a merchant' do
     it 'should see a button to disable or enable an Item' do
       merchant = create(:merchant)
 
-      item1 = create(:item, merchant_id: merchant.id)
-      item2 = create(:item, merchant_id: merchant.id, status: 'Disabled')
-      item3 = create(:item, merchant_id: merchant.id)
+      create(:item, merchant_id: merchant.id)
+      create(:item, merchant_id: merchant.id, status: 'Disabled')
+      create(:item, merchant_id: merchant.id)
 
       visit "/merchant/#{merchant.id}/items"
 
