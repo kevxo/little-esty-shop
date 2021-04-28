@@ -3,7 +3,13 @@
 <div class="my-items">
     <% @merchant.items.each do |item| %>
       <ul>
-        <li><%= link_to item.name, "/merchant/#{@merchant.id}/items/#{item.id}" %></li>
+        <% if item.status == 'Enabled' %>
+          <li><%= link_to item.name, "/merchant/#{@merchant.id}/items/#{item.id}"%>
+            - <%= button_to "Disabled", "/merchant/#{@merchant.id}/items?item_id=#{item.id}", method: :patch %> </li>
+        <% else %>
+          <li><%= link_to item.name, "/merchant/#{@merchant.id}/items/#{item.id}"%>
+            - <%= button_to "Enabled", "/merchant/#{@merchant.id}/items?item_id=#{item.id}", method: :patch%> </li>
+        <% end %>
       </ul>
     <% end %>
 </div>
