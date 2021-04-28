@@ -34,6 +34,58 @@ RSpec.describe 'As a merchant' do
         expect(page).to_not have_content(item3.name)
       end
     end
+
+    it 'should see a button to disable or enable an Item' do
+      merchant = create(:merchant)
+
+      item1 = create(:item, merchant_id: merchant.id)
+      item2 = create(:item, merchant_id: merchant.id, status: 'Disabled')
+      item3 = create(:item, merchant_id: merchant.id)
+
+      visit "/merchant/#{merchant.id}/items"
+
+      within '.my-items' do
+        expect(page).to have_button('Disabled')
+        expect(page).to have_button('Enabled')
+        expect(page).to have_button('Disabled')
+      end
+    end
+
+    it 'should change item status when clicking button from disabled to enabled' do
+      merchant = create(:merchant)
+
+      create(:item, merchant_id: merchant.id)
+
+      visit "/merchant/#{merchant.id}/items"
+
+      within '.my-items' do
+        click_button 'Disabled'
+      end
+
+      expect(current_path).to eq("/merchant/#{merchant.id}/items")
+
+      within '.my-items' do
+        expect(page).to have_button('Enabled')
+      end
+    end
+
+    it 'should change item status when clicking button from enabled to disabled' do
+      merchant = create(:merchant)
+
+      create(:item, merchant_id: merchant.id, status: 'Disabled')
+
+      visit "/merchant/#{merchant.id}/items"
+
+      within '.my-items' do
+        click_button 'Enabled'
+      end
+
+      expect(current_path).to eq("/merchant/#{merchant.id}/items")
+
+      within '.my-items' do
+        expect(page).to have_button('Disabled')
+      end
+    end
   end
 
   describe 'When I click on an item' do
