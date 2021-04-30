@@ -86,6 +86,20 @@ RSpec.describe 'As a merchant' do
         expect(page).to have_button('Disabled')
       end
     end
+
+    it 'should see that enabled and disabled items have their own sections.' do
+      merchant = create(:merchant)
+
+      item1 = create(:item, merchant_id: merchant.id)
+      item2 = create(:item, merchant_id: merchant.id, status: 'Disabled')
+      item3 = create(:item, merchant_id: merchant.id)
+
+      visit "/merchant/#{merchant.id}/items"
+
+      expect(all('.enabled-items')[0]).to have_content(item1.name)
+      expect(all('.disabled-items')[1]).to have_content(item2.name)
+      expect(all('.enabled-items')[2]).to have_content(item3.name)
+    end
   end
 
   describe 'When I click on an item' do
