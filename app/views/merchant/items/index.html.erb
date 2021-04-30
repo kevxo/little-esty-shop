@@ -2,6 +2,14 @@
 
 <div class="my-items">
     <%= link_to 'Create Item', "/merchant/#{@merchant.id}/items/new" %>
+    <h2>Top 5 Popular Items by Revenue</h2>
+    <% Item.most_popular_items(@merchant.id).each do |item| %>
+      <ul class="top-5-popular">
+        <li><%= link_to item.name, "/merchant/#{@merchant.id}/items/#{item.id}"%>
+      </ul>
+    <% end %>
+
+
     <h2>Enabled Items:</h2>
     <% @merchant.items.each do |item| %>
       <ul class="enabled-items">
