@@ -100,6 +100,24 @@ RSpec.describe 'As a merchant' do
       expect(all('.disabled-items')[1]).to have_content(item2.name)
       expect(all('.enabled-items')[2]).to have_content(item3.name)
     end
+
+
+    it 'should see link to create an Item and it should take me to  a form' do
+      merchant = create(:merchant)
+
+      create(:item, merchant_id: merchant.id)
+      create(:item, merchant_id: merchant.id, status: 'Disabled')
+      create(:item, merchant_id: merchant.id)
+
+      visit "/merchant/#{merchant.id}/items"
+
+      expect(page).to have_link('Create Item')
+
+      click_link 'Create Item'
+
+      expect(current_path).to eq("/merchant/#{merchant.id}/items/new")
+      expect(page).to have_content('New Item')
+    end
   end
 
   describe 'When I click on an item' do
@@ -153,6 +171,29 @@ RSpec.describe 'As a merchant' do
 
       expect(current_path).to eq("/merchant/#{merchant.id}/items/#{item1.id}")
       expect(page).to have_content('Item has been updated successfully!')
+    end
+  end
+
+  describe 'Create a new Item' do
+    it 'should fill out item information and have a disabled as my default status' do
+      merchant = create(:merchant)
+
+      visit "/merchant/#{merchant.id}/items/new"
+
+      fill_in :name, with: 'Macbook Pro 2000'
+      fill_in :description, with: 'The new era of apple'
+      fill_in :unit_price, with: 2500
+
+      click_button 'Submit'
+
+      expect(current_path).to eq("/merchant/#{merchant.id}/items")
+
+      within '.my-items' do
+        expect(page).to have_content('Macbook Pro 2000')
+      end
+
+      expect(page).to have_content('Item created successfully!')
+      expect(all('.disabled-items')[0]).to have_content('Macbook Pro 2000')
     end
   end
 end
