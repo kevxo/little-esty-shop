@@ -3,6 +3,21 @@ class Merchant::ItemsController < ApplicationController
     @merchant = Merchant.find(params[:id])
   end
 
+  def new
+    @merchant = Merchant.find(params[:id])
+  end
+
+  def create
+    merchant = Merchant.find(params[:id])
+    item = Item.create(item_params)
+    item.merchant_id = merchant.id
+    item.status = 'Disabled'
+    item.save
+
+    flash[:notice] = 'Item created successfully!'
+    redirect_to "/merchant/#{merchant.id}/items"
+  end
+
   def show
     @merchant = Merchant.find(params[:id])
     @item = Item.find(params[:item_id])
