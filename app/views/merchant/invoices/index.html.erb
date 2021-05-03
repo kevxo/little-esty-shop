@@ -1,0 +1,11 @@
+<h1>Invoices</h1>
+
+<div class="my-invoices">
+  <% @invoices.each do |invoice| %>
+    <% invoice.items.each do |item|%>
+    <ul>
+      <li><%= item.name %><%= link_to "#{invoice.id}", "/merchant/#{@merchant.id}/invoices/#{invoice.id}" %></li>
+    </ul>
+    <% end %>
+  <% end %>
+</div>
