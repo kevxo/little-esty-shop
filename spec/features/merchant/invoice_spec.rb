@@ -127,9 +127,9 @@ RSpec.describe 'As a Merchant' do
 
       within '.invoice-items' do
         expect(page).to have_content(@item1.name)
-        expect(page).to have_content(@invoice_item1.quantity)
-        expect(page).to have_content(@invoice_item1.unit_price)
-        expect(page).to have_content(@invoice_item1.status)
+        expect(page).to have_content("Quantity: #{@invoice_item1.quantity}")
+        expect(page).to have_content("Price: $#{@invoice_item1.unit_price}")
+        expect(page).to have_content("Status: #{@invoice_item1.status}")
       end
     end
   end
