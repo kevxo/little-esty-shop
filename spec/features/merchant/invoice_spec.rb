@@ -101,7 +101,7 @@ RSpec.describe 'As a Merchant' do
       create(:transaction, invoice_id: @invoice7.id)
       create(:transaction, invoice_id: @invoice8.id)
 
-      create(:invoice_item, invoice_id: @invoice1.id, item_id: @item1.id, status: 1, quantity: 3, unit_price: 500)
+      @invoice_item1 = create(:invoice_item, invoice_id: @invoice1.id, item_id: @item1.id, status: 1, quantity: 3, unit_price: 500)
       create(:invoice_item, invoice_id: @invoice2.id, item_id: @item3.id, quantity: 3, unit_price: 500)
       create(:invoice_item, invoice_id: @invoice3.id, item_id: @item4.id, quantity: 3, unit_price: 500)
       create(:invoice_item, invoice_id: @invoice4.id, item_id: @item1.id, quantity: 3, unit_price: 500)
@@ -119,6 +119,17 @@ RSpec.describe 'As a Merchant' do
         expect(page).to have_content("Status: #{@invoice1.status}")
         expect(page).to have_content("Date: #{@invoice1.created_at.strftime('%A %B %d, %Y')}")
         expect(page).to have_content("Customer: #{@customer1.first_name} #{@customer1.last_name}")
+      end
+    end
+
+    it 'should be able to see invoice items information name, quantity, status, price.' do
+      visit "/merchant/#{@merchant.id}/invoices/#{@invoice1.id}"
+
+      within '.invoice-items' do
+        expect(page).to have_content(@item1.name)
+        expect(page).to have_content("Quantity: #{@invoice_item1.quantity}")
+        expect(page).to have_content("Price: $#{@invoice_item1.unit_price}")
+        expect(page).to have_content("Status: #{@invoice_item1.status}")
       end
     end
   end
