@@ -14,5 +14,6 @@ Rails.application.routes.draw do
 
     get '/:id/invoices', to: 'invoices#index'
     get '/:id/invoices/:invoice_id', to: 'invoices#show'
+    post '/:id/invoices', to: 'invoices#update'
   end
 end

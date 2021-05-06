@@ -75,4 +75,60 @@ RSpec.describe Invoice, type: :model do
       expect(Invoice.most_successful_transactions(@merchant2.id)).to eq(expected)
     end
   end
+
+  describe 'Instance methods' do
+    before(:each) do
+      @merchant = create(:merchant)
+
+      @customer1 = create(:customer)
+      @customer2 = create(:customer)
+      @customer3 = create(:customer)
+      @customer4 = create(:customer)
+      @customer5 = create(:customer)
+
+      @item1 = create(:item, merchant_id: @merchant.id, name: 'Small Wooden Table')
+      @item2 = create(:item, merchant_id: @merchant.id, name: 'Practical Paper Keyboard')
+      @item3 = create(:item, merchant_id: @merchant.id, name: 'Gorgeous Bronze Bottle')
+      @item4 = create(:item, merchant_id: @merchant.id, name: 'Synergistic Linen Keyboard')
+      @item5 = create(:item, merchant_id: @merchant.id, name: 'Small Cotton Pants')
+
+      @invoice1 = create(:invoice, customer_id: @customer1.id)
+      @invoice2 = create(:invoice, customer_id: @customer1.id)
+      @invoice3 = create(:invoice, customer_id: @customer2.id)
+      @invoice4 = create(:invoice, customer_id: @customer2.id)
+      @invoice5 = create(:invoice, customer_id: @customer2.id)
+      @invoice6 = create(:invoice, customer_id: @customer3.id)
+      @invoice7 = create(:invoice, customer_id: @customer4.id)
+      @invoice8 = create(:invoice, customer_id: @customer5.id)
+
+      create(:transaction, invoice_id: @invoice1.id)
+      create(:transaction, invoice_id: @invoice2.id)
+      create(:transaction, invoice_id: @invoice3.id)
+      create(:transaction, invoice_id: @invoice4.id)
+      create(:transaction, invoice_id: @invoice5.id)
+      create(:transaction, invoice_id: @invoice6.id)
+      create(:transaction, invoice_id: @invoice7.id)
+      create(:transaction, invoice_id: @invoice8.id)
+
+      @invoice_item1 = create(:invoice_item, invoice_id: @invoice1.id, item_id: @item1.id, status: 1, quantity: 3, unit_price: 500)
+      create(:invoice_item, invoice_id: @invoice1.id, item_id: @item3.id, quantity: 3, unit_price: 500)
+      create(:invoice_item, invoice_id: @invoice3.id, item_id: @item4.id, quantity: 4, unit_price: 700)
+      create(:invoice_item, invoice_id: @invoice4.id, item_id: @item1.id, quantity: 1, unit_price: 600)
+      create(:invoice_item, invoice_id: @invoice7.id, item_id: @item2.id, status: 1, quantity: 5, unit_price: 500)
+      create(:invoice_item, invoice_id: @invoice8.id, item_id: @item3.id, status: 2, quantity: 2, unit_price: 500)
+      create(:invoice_item, invoice_id: @invoice6.id, item_id: @item5.id, quantity: 3, unit_price: 100)
+      create(:invoice_item, invoice_id: @invoice5.id, item_id: @item4.id, quantity: 3, unit_price: 200)
+    end
+
+    it 'should give total revenue of all items in one invoice' do
+      expect(@invoice1.total_revenue).to eq(3000)
+      expect(@invoice2.total_revenue).to eq(0)
+      expect(@invoice3.total_revenue).to eq(2800)
+      expect(@invoice4.total_revenue).to eq(600)
+      expect(@invoice5.total_revenue).to eq(600)
+      expect(@invoice6.total_revenue).to eq(300)
+      expect(@invoice7.total_revenue).to eq(2500)
+      expect(@invoice8.total_revenue).to eq(1000)
+    end
+  end
 end
