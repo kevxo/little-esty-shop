@@ -129,7 +129,28 @@ RSpec.describe 'As a Merchant' do
         expect(page).to have_content(@item1.name)
         expect(page).to have_content("Quantity: #{@invoice_item1.quantity}")
         expect(page).to have_content("Price: $#{@invoice_item1.unit_price}")
-        expect(page).to have_content("Status: #{@invoice_item1.status}")
+        expect(page).to have_content("Status: packaged pending shipped")
+      end
+    end
+
+    it 'should show the total revenue for an invoice' do
+      visit "/merchant/#{@merchant.id}/invoices/#{@invoice1.id}"
+
+      expect(page).to have_content("Total Revenue: $#{@invoice1.total_revenue}")
+    end
+
+    it 'should be able to update item status' do
+      visit "/merchant/#{@merchant.id}/invoices/#{@invoice1.id}"
+
+      within "##{@invoice_item1.id}" do
+        select 'packaged', :from => 'status'
+
+        click_button 'Update Item Status'
+      end
+
+      expect(current_path).to eq("/merchant/#{@merchant.id}/invoices/#{@invoice1.id}")
+      within '.invoice-items' do
+        expect(page).to have_content(@invoice_item1.status)
       end
     end
   end
