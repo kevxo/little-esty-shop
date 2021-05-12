@@ -2,3 +2,13 @@
 
 <%= link_to 'Admin Merchants', '/admin/merchants' %>
 <%= link_to 'Admin Invoices', '/admin/invoices' %>
+
+
+<div class="top-5-customers">
+  <h3>Top 5 Customers</h3>
+  <ul>
+  <% @top_5_customers.each do |customer| %>
+    <li><%= customer %></li>
+  <% end %>
+  </ul>
+</div>

@@ -19,6 +19,20 @@ class Invoice < ApplicationRecord
     end
   end
 
+  def self.top_5_customers(limit = 5, order = 'DESC')
+    top_successful_transactions = select('invoices.customer_id, count(transactions.result = 0) as customers_successful_transactions')
+                                  .joins(:invoice_items, :transactions, :items)
+                                  .where(transactions: { result: 'success' })
+                                  .group(:customer_id)
+                                  .order("customers_successful_transactions #{order}")
+                                  .limit(limit)
+
+    top_successful_transactions.map do |invoice|
+      customer = Customer.find(invoice.customer_id)
+      "#{customer.first_name} #{customer.last_name} - #{invoice.customers_successful_transactions}"
+    end
+  end
+
   def total_revenue
     invoice_items.sum('quantity * unit_price')
   end

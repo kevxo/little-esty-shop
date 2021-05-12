@@ -74,6 +74,17 @@ RSpec.describe Invoice, type: :model do
 
       expect(Invoice.most_successful_transactions(@merchant2.id)).to eq(expected)
     end
+
+    it 'top 5 customers with no merchant id' do
+      expected = [
+        "#{@customer2.first_name} #{@customer2.last_name} - 3",
+        "#{@customer1.first_name} #{@customer1.last_name} - 2",
+        "#{@customer3.first_name} #{@customer3.last_name} - 1",
+        "#{@customer4.first_name} #{@customer4.last_name} - 1",
+        "#{@customer5.first_name} #{@customer5.last_name} - 1"
+      ]
+      expect(Invoice.top_5_customers).to eq(expected)
+    end
   end
 
   describe 'Instance methods' do
