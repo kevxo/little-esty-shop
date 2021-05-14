@@ -38,4 +38,26 @@ RSpec.describe 'As a admin' do
       expect(page).to_not have_content(@merchant2.name)
     end
   end
+
+  describe 'When I visit the merchants show page' do
+    it 'should see a link to update the merchant and see a flash message after update' do
+      merchant = create(:merchant)
+
+      visit "/admin/merchants/#{merchant.id}"
+
+      expect(page).to have_link('Update Merchant')
+
+      click_link 'Update Merchant'
+
+      expect(current_path).to eq("/admin/merchants/#{merchant.id}/edit")
+
+      fill_in :name, with: 'Kevin Cuadros'
+
+      click_button 'Submit'
+
+      expect(current_path).to eq("/admin/merchants/#{merchant.id}")
+      expect(page).to have_content('Kevin Cuadros')
+      expect(page).to have_content('Information has been successfully updated!')
+    end
+  end
 end
