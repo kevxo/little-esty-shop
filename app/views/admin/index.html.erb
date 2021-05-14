@@ -12,3 +12,13 @@
   <% end %>
   </ul>
 </div>
+
+<div class="incomplete-invoices">
+  <h1>Incomplete Invoices</h1>
+  <% @items.each do |item|%>
+    <% item.ready_to_ship.each do |invoice| %>
+      <h4><%= item.name %> Date: <%= invoice.created_at.strftime('%A %B %d, %Y')%> Id: <%= link_to "#{invoice.invoice_id}", "/admin/invoices/#{invoice.invoice_id}" %></h4>
+    <% end %>
+  <% end %>
+
+<div>
