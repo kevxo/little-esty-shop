@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-
 RSpec.describe 'As a Admin' do
   describe 'When I visit the admin dashboard' do
     before(:each) do
@@ -78,6 +77,19 @@ RSpec.describe 'As a Admin' do
         expect(page).to have_content("#{@customer3.first_name} #{@customer3.last_name} - 1")
         expect(page).to have_content("#{@customer4.first_name} #{@customer4.last_name} - 1")
         expect(page).to have_content("#{@customer5.first_name} #{@customer5.last_name} - 1")
+      end
+    end
+
+    it 'should see a section incomplete invoices where I see a list of Ids of all invoices
+    that have items that have not yet been shipped. Ids link to show page' do
+      visit '/admin'
+
+      @item1.ready_to_ship do |invoice|
+        within '.incomplete-invoices' do
+          expect(page).to have_content('Incomplete Invoices')
+          expect(page).to have_link(invoice.invoice_id.to_s)
+          expect(page).to have_content("#{@item1.name} Date: #{invoice.created_at.strftime('%A %B %d, %Y')} ID: #{invoice.invoice_id}")
+        end
       end
     end
   end
