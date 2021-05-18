@@ -4,9 +4,9 @@ RSpec.describe 'As a admin' do
   describe 'When I visit the admin merchants index page' do
     before(:each) do
       @merchant1 = create(:merchant)
-      @merchant2 = create(:merchant)
+      @merchant2 = create(:merchant, status: 1)
       @merchant3 = create(:merchant)
-      @merchant4 = create(:merchant)
+      @merchant4 = create(:merchant, status: 1)
       @merchant5 = create(:merchant)
 
     end
@@ -36,6 +36,23 @@ RSpec.describe 'As a admin' do
       expect(current_path).to eq("/admin/merchants/#{@merchant1.id}")
       expect(page).to have_content(@merchant1.name)
       expect(page).to_not have_content(@merchant2.name)
+    end
+
+    it 'should see a button to enable or disable a merchant and update the merchants status' do
+      visit '/admin/merchants'
+
+      within '.all-merchants' do
+        expect(page).to have_button(@merchant1.status)
+        expect(page).to have_button(@merchant2.status)
+
+        click_button @merchant1.status
+      end
+
+      expect(current_path).to eq("/admin/merchants")
+
+      within '.all-merchants' do
+        expect(@merchant1.status).to eq('Disable')
+      end
     end
   end
 
