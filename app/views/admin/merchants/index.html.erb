@@ -2,9 +2,25 @@
 
 
 <div class="all-merchants">
+  <h3>Enabled Items</h3>
   <% @merchants.each do |merchant| %>
   <ul>
-    <li><%= link_to merchant.name, "/admin/merchants/#{merchant.id}" %></li>
+    <% if merchant.status == 'Enable'%>
+      <li class="merchant-<%= merchant.id %>"><%= link_to merchant.name, "/admin/merchants/#{merchant.id}" %>
+      <%= button_to 'Disable', "/admin/merchants?merchant_id=#{merchant.id}", method: :patch %></li>
+    <% end %>
+  </ul>
+  <% end %>
+
+
+  <h3>Disabled Items</h3>
+   <% @merchants.each do |merchant| %>
+  <ul>
+
+    <% if merchant.status == 'Disable' %>
+       <li class="merchant-<%= merchant.id %>"><%= link_to merchant.name, "/admin/merchants/#{merchant.id}" %>
+      <%= button_to 'Enable', "/admin/merchants?merchant_id=#{merchant.id}", method: :patch %></li>
+    <% end %>
   </ul>
   <% end %>
 </div>
