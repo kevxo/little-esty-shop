@@ -47,6 +47,25 @@ RSpec.describe 'As a admin' do
 
       expect(current_path).to eq('/admin/merchants')
     end
+
+    it 'should see a link to create a new merchant and when I click be redirected to a form' do
+      visit '/admin/merchants'
+
+      expect(page).to have_link('Create a new Merchant')
+
+      click_link 'Create a new Merchant'
+      expect(current_path).to eq('/admin/merchants/new')
+
+      fill_in :name, with: 'Kevin Cuadros'
+
+      click_button 'Submit'
+
+      expect(current_path).to eq('/admin/merchants')
+
+      within '.all-merchants' do
+        expect(page).to have_content('Kevin Cuadros')
+      end
+    end
   end
 
   describe 'When I visit the merchants show page' do
