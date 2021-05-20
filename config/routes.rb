@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   resources :admin, only: [:index]
 
   namespace :admin do
-    resources :merchants, only: %i[index show edit update]
+    resources :merchants, only: %i[index new create show edit update]
     patch '/merchants', to: 'merchants#update_status'
     resources :invoices, only: [:index]
   end
