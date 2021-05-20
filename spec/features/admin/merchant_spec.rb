@@ -121,7 +121,11 @@ RSpec.describe 'As a admin' do
         expect(page).to have_content("#{merchant3.name}-$2400")
         expect(page).to have_content("#{merchant5.name}-$900")
         expect(page).to have_content("#{merchant2.name}-$300")
+
+        click_link merchant4.name
       end
+
+      expect(current_path).to eq("/admin/merchants/#{merchant4.id}")
     end
   end
 
