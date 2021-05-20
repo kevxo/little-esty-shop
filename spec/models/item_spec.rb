@@ -119,13 +119,15 @@ RSpec.describe Item, type: :model do
       create(:invoice_item, invoice_id: invoice6.id, item_id: item5.id, quantity: 3, unit_price: 300)
       create(:invoice_item, invoice_id: invoice5.id, item_id: item4.id, quantity: 3, unit_price: 500)
 
-      items = Item.top_merchants
+      expected = {
+        merchant4.name => 8400,
+        @merchant.name => 6000,
+        @merchant.name => 6000,
+        @merchant.name => 6000,
+        merchant1.name => 5400
+      }
 
-      expect(items.first).to eq("#{merchant4.name}-$8400")
-      expect(items.second).to eq("#{@merchant.name}-$6000")
-      expect(items.third).to eq("#{@merchant.name}-$6000")
-      expect(items.fourth).to eq("#{@merchant.name}-$6000")
-      expect(items.last).to eq("#{merchant1.name}-$5400")
+      expect(Item.top_merchants).to eq(expected)
     end
   end
 end
