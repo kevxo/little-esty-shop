@@ -72,5 +72,60 @@ RSpec.describe Item, type: :model do
       expect(items.last.name).to eq(@item5.name)
       expect(Item.most_popular_items(@merchant.id).length).to eq(5)
     end
+
+    it 'top 5 merchants' do
+      merchant1 = create(:merchant, name: 'John')
+      merchant2 = create(:merchant, name: 'Danny')
+      merchant3 = create(:merchant, name: 'Oscar')
+      merchant4 = create(:merchant, name: 'Tony')
+      merchant5 = create(:merchant, name: 'Paul')
+
+      customer1 = create(:customer)
+      customer2 = create(:customer)
+      customer3 = create(:customer)
+      customer4 = create(:customer)
+      customer5 = create(:customer)
+
+      item1 = create(:item, merchant_id: merchant1.id, name: 'Small Wooden Table')
+      item2 = create(:item, merchant_id: merchant2.id, name: 'Practical Paper Keyboard')
+      item3 = create(:item, merchant_id: merchant3.id, name: 'Gorgeous Bronze Bottle')
+      item4 = create(:item, merchant_id: merchant4.id, name: 'Synergistic Linen Keyboard')
+      item5 = create(:item, merchant_id: merchant5.id, name: 'Small Cotton Pants')
+
+      invoice1 = create(:invoice, customer_id: customer1.id)
+      invoice2 = create(:invoice, customer_id: customer1.id)
+      invoice3 = create(:invoice, customer_id: customer2.id)
+      invoice4 = create(:invoice, customer_id: customer2.id)
+      invoice5 = create(:invoice, customer_id: customer2.id)
+      invoice6 = create(:invoice, customer_id: customer3.id)
+      invoice7 = create(:invoice, customer_id: customer4.id)
+      invoice8 = create(:invoice, customer_id: customer5.id)
+
+      create(:transaction, invoice_id: invoice1.id)
+      create(:transaction, invoice_id: invoice2.id)
+      create(:transaction, invoice_id: invoice3.id)
+      create(:transaction, invoice_id: invoice4.id)
+      create(:transaction, invoice_id: invoice5.id)
+      create(:transaction, invoice_id: invoice6.id)
+      create(:transaction, invoice_id: invoice7.id)
+      create(:transaction, invoice_id: invoice8.id)
+
+      create(:invoice_item, invoice_id: invoice1.id, item_id: item1.id, status: 1, quantity: 3, unit_price: 700)
+      create(:invoice_item, invoice_id: invoice2.id, item_id: item3.id, quantity: 3, unit_price: 200)
+      create(:invoice_item, invoice_id: invoice3.id, item_id: item4.id, quantity: 3, unit_price: 900)
+      create(:invoice_item, invoice_id: invoice4.id, item_id: item1.id, quantity: 3, unit_price: 200)
+      create(:invoice_item, invoice_id: invoice7.id, item_id: item2.id, quantity: 3, unit_price: 100)
+      create(:invoice_item, invoice_id: invoice8.id, item_id: item3.id, quantity: 3, unit_price: 200)
+      create(:invoice_item, invoice_id: invoice6.id, item_id: item5.id, quantity: 3, unit_price: 300)
+      create(:invoice_item, invoice_id: invoice5.id, item_id: item4.id, quantity: 3, unit_price: 500)
+
+      items = Item.top_merchants
+
+      expect(items.first).to eq("#{merchant4.name}-$8400")
+      expect(items.second).to eq("#{@merchant.name}-$6000")
+      expect(items.third).to eq("#{@merchant.name}-$6000")
+      expect(items.fourth).to eq("#{@merchant.name}-$6000")
+      expect(items.last).to eq("#{merchant1.name}-$5400")
+    end
   end
 end
