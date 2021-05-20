@@ -20,6 +20,7 @@ class Item < ApplicationRecord
   end
 
   def self.top_merchants(order = 'DESC', limit = 5)
+    hash = {}
     top5 = select('items.merchant_id, SUM(invoice_items.quantity * invoice_items.unit_price) AS revenue')
            .joins(:invoice_items, invoices: :transactions)
            .where(transactions: { result: 0 })
@@ -29,7 +30,9 @@ class Item < ApplicationRecord
 
     top5.map do |item|
       merchant = Merchant.find(item.merchant_id)
-      "#{merchant.name}-$#{item.revenue}"
+      hash[merchant.name] = item.revenue
     end
+
+    hash
   end
 end
