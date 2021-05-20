@@ -2,6 +2,13 @@
 
 <%=  link_to 'Create a new Merchant',  '/admin/merchants/new' %>
 
+<div class="top-5-merchants">
+  <h2>Top Merchants</h2>
+  <% Item.top_merchants.each do |name, revenue|%>
+    <h4><%= link_to name, "/admin/merchants/#{Merchant.find_by(name: name).id}" %>-$<%= revenue %></h4>
+  <% end %>
+</div>
+
 <div class="all-merchants">
   <h3>Enabled Items</h3>
   <% @merchants.each do |merchant| %>
