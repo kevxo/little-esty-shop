@@ -67,7 +67,7 @@ RSpec.describe 'As a admin' do
       end
     end
 
-    it 'should see the top 5 merchants by total revenue and each name links to their show page' do
+    it 'should see the top 5 merchants by total revenue and each name links to their show page and top selling date' do
       merchant1 = create(:merchant, name: 'John')
       merchant2 = create(:merchant, name: 'Danny')
       merchant3 = create(:merchant, name: 'Oscar')
@@ -116,11 +116,11 @@ RSpec.describe 'As a admin' do
 
       within '.top-5-merchants' do
         expect(page).to have_link(merchant4.name)
-        expect(page).to have_content("#{merchant4.name}-$8400")
-        expect(page).to have_content("#{merchant1.name}-$5400")
-        expect(page).to have_content("#{merchant3.name}-$2400")
-        expect(page).to have_content("#{merchant5.name}-$900")
-        expect(page).to have_content("#{merchant2.name}-$300")
+        expect(page).to have_content("#{merchant4.name}-$8,400. Top selling date for #{merchant4.name} was #{Date.today.strftime('%B %d, %Y')}")
+        expect(page).to have_content("#{merchant1.name}-$5,400. Top selling date for #{merchant1.name} was #{Date.today.strftime('%B %d, %Y')}")
+        expect(page).to have_content("#{merchant3.name}-$2,400. Top selling date for #{merchant3.name} was #{Date.today.strftime('%B %d, %Y')}")
+        expect(page).to have_content("#{merchant5.name}-$900. Top selling date for #{merchant5.name} was #{Date.today.strftime('%B %d, %Y')}")
+        expect(page).to have_content("#{merchant2.name}-$300. Top selling date for #{merchant2.name} was #{Date.today.strftime('%B %d, %Y')}")
 
         click_link merchant4.name
       end

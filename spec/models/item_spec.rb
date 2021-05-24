@@ -119,12 +119,13 @@ RSpec.describe Item, type: :model do
       create(:invoice_item, invoice_id: invoice6.id, item_id: item5.id, quantity: 3, unit_price: 300)
       create(:invoice_item, invoice_id: invoice5.id, item_id: item4.id, quantity: 3, unit_price: 500)
 
+
       expected = {
-        merchant4.name => 8400,
-        @merchant.name => 6000,
-        @merchant.name => 6000,
-        @merchant.name => 6000,
-        merchant1.name => 5400
+        merchant4.name => "8,400. Top selling date for #{merchant4.name} was #{Date.today.strftime('%B %d, %Y')}",
+        @merchant.name => "6,000. Top selling date for #{@merchant.name} was #{Date.today.strftime('%B %d, %Y')}",
+        @merchant.name => "6,000. Top selling date for #{@merchant.name} was #{Date.today.strftime('%B %d, %Y')}",
+        @merchant.name => "6,000. Top selling date for #{@merchant.name} was #{Date.today.strftime('%B %d, %Y')}",
+        merchant1.name => "5,400. Top selling date for #{merchant1.name} was #{Date.today.strftime('%B %d, %Y')}"
       }
 
       expect(Item.top_merchants).to eq(expected)
