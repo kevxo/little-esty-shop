@@ -21,4 +21,22 @@ RSpec.describe 'As a Admin' do
       expect(current_path).to eq("/admin/invoices/#{invoice1.id}")
     end
   end
+
+  describe 'When I visit the invoice show page' do
+    it 'should see all of the invoice information including the customer full name' do
+      customer = create(:customer)
+      invoice1 = create(:invoice, customer_id: customer.id)
+
+      visit "/admin/invoices/#{invoice1.id}"
+
+      within '.invoice-info' do
+        expect(page).to have_content(invoice1.id)
+        expect(page).to have_content(invoice1.status)
+        expect(page).to have_content(invoice1.created_at.strftime('%A %B %d, %Y'))
+        expect(page).to have_content("#{customer.first_name} #{customer.last_name}")
+      end
+
+      save_and_open_page
+    end
+  end
 end
