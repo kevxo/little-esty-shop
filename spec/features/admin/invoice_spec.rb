@@ -59,7 +59,10 @@ RSpec.describe 'As a Admin' do
             expect(page).to have_content(item.name)
             expect(page).to have_content(invoice_item.quantity)
             expect(page).to have_content(invoice_item.unit_price)
-            expect(page).to have_content(invoice_item.status)
+          end
+
+          within "#status-#{item.id}-#{invoice_item.id}" do
+            expect(page).to have_content('Invoice Item Status: packaged pending shipped')
           end
         end
       end
@@ -82,6 +85,35 @@ RSpec.describe 'As a Admin' do
       visit "/admin/invoices/#{invoice.id}"
 
       expect(page).to have_content("Total Revenue $#{invoice.total_revenue}")
+    end
+
+    it 'should update invoice status' do
+      merchant = create(:merchant)
+      customer = create(:customer)
+
+      item1 = create(:item, merchant_id: merchant.id)
+      item2 = create(:item, merchant_id: merchant.id)
+      item3 = create(:item, merchant_id: merchant.id)
+
+      invoice = create(:invoice, customer_id: customer.id)
+
+      create(:invoice_item, item_id: item1.id, invoice_id: invoice.id)
+      create(:invoice_item, item_id: item2.id, invoice_id: invoice.id)
+      create(:invoice_item, item_id: item3.id, invoice_id: invoice.id)
+
+      visit "/admin/invoices/#{invoice.id}"
+
+      invoice.invoice_items.each do |invoice_item|
+        invoice.items.each do |item|
+          within "#status-#{item.id}-#{invoice_item.id}" do
+            select 'packaged', from: 'status'
+
+            click_button 'Update Item Status'
+          end
+        end
+      end
+
+      expect(current_path).to eq("/admin/invoices/#{invoice.id}")
     end
   end
 end

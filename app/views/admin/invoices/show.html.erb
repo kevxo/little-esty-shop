@@ -18,7 +18,9 @@
         <li>Item Name: <%= item.name %></li>
         <li>Quantity of Item: <%= invoice_item.quantity %></li>
         <li>Price of Item: $<%= invoice_item.unit_price %></li>
-        <li>Invoice Item Status: <%= invoice_item.status %></li>
+        <%= form_with url: "/admin/invoices/#{@invoice.id}?invoice_item_id=#{invoice_item.id}", method: :patch do |f| %>
+        <li id="status-<%= item.id %>-<%= invoice_item.id%>">Invoice Item Status: <%= f.select :status, ['packaged', 'pending', 'shipped'], selected: invoice_item.status %> <%= f.submit 'Update Item Status' %></li>
+        <% end %>
       </ul>
     <% end %>
   <% end %>

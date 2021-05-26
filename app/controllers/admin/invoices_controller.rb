@@ -7,4 +7,13 @@ class Admin::InvoicesController < ApplicationController
     @invoice = Invoice.find(params[:id])
     @customer = Customer.find(@invoice.customer_id)
   end
+
+  def update
+    invoice = Invoice.find(params[:id])
+    invoice_item = InvoiceItem.find(params[:invoice_item_id])
+    invoice_item.status = params[:status]
+    invoice_item.save
+
+    redirect_to "/admin/invoices/#{invoice.id}"
+  end
 end
