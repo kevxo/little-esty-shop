@@ -132,14 +132,14 @@ RSpec.describe Invoice, type: :model do
     end
 
     it 'should give total revenue of all items in one invoice' do
-      expect(@invoice1.total_revenue).to eq(3000)
-      expect(@invoice2.total_revenue).to eq(0)
-      expect(@invoice3.total_revenue).to eq(2800)
-      expect(@invoice4.total_revenue).to eq(600)
-      expect(@invoice5.total_revenue).to eq(600)
-      expect(@invoice6.total_revenue).to eq(300)
-      expect(@invoice7.total_revenue).to eq(2500)
-      expect(@invoice8.total_revenue).to eq(1000)
+      expect(@invoice1.total_revenue).to eq('3,000')
+      expect(@invoice2.total_revenue).to eq('0')
+      expect(@invoice3.total_revenue).to eq('2,800')
+      expect(@invoice4.total_revenue).to eq('600')
+      expect(@invoice5.total_revenue).to eq('600')
+      expect(@invoice6.total_revenue).to eq('300')
+      expect(@invoice7.total_revenue).to eq('2,500')
+      expect(@invoice8.total_revenue).to eq('1,000')
     end
   end
 end
