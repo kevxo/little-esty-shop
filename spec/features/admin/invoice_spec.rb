@@ -64,5 +64,24 @@ RSpec.describe 'As a Admin' do
         end
       end
     end
+
+    it 'should see the total revenue generated from the invoice' do
+      merchant = create(:merchant)
+      customer = create(:customer)
+
+      item1 = create(:item, merchant_id: merchant.id)
+      item2 = create(:item, merchant_id: merchant.id)
+      item3 = create(:item, merchant_id: merchant.id)
+
+      invoice = create(:invoice, customer_id: customer.id)
+
+      create(:invoice_item, item_id: item1.id, invoice_id: invoice.id)
+      create(:invoice_item, item_id: item2.id, invoice_id: invoice.id)
+      create(:invoice_item, item_id: item3.id, invoice_id: invoice.id)
+
+      visit "/admin/invoices/#{invoice.id}"
+
+      expect(page).to have_content("Total Revenue $#{invoice.total_revenue}")
+    end
   end
 end
