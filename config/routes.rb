@@ -22,6 +22,6 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :merchants, only: %i[index new create show edit update]
     patch '/merchants', to: 'merchants#update_status'
-    resources :invoices, only: [:index, :show]
+    resources :invoices, only: %i[index show update]
   end
 end
