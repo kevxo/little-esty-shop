@@ -111,7 +111,7 @@ RSpec.describe Item, type: :model do
       create(:transaction, invoice_id: invoice8.id)
 
       create(:invoice_item, invoice_id: invoice1.id, item_id: item1.id, status: 1, quantity: 3, unit_price: 700)
-      create(:invoice_item, invoice_id: invoice2.id, item_id: item3.id, quantity: 3, unit_price: 200)
+      invoice_item = create(:invoice_item, invoice_id: invoice2.id, item_id: item3.id, quantity: 3, unit_price: 200)
       create(:invoice_item, invoice_id: invoice3.id, item_id: item4.id, quantity: 3, unit_price: 900)
       create(:invoice_item, invoice_id: invoice4.id, item_id: item1.id, quantity: 3, unit_price: 200)
       create(:invoice_item, invoice_id: invoice7.id, item_id: item2.id, quantity: 3, unit_price: 100)
@@ -121,11 +121,11 @@ RSpec.describe Item, type: :model do
 
 
       expected = {
-        merchant4.name => "8,400. Top selling date for #{merchant4.name} was #{Date.today.strftime('%B %d, %Y')}",
-        @merchant.name => "6,000. Top selling date for #{@merchant.name} was #{Date.today.strftime('%B %d, %Y')}",
-        @merchant.name => "6,000. Top selling date for #{@merchant.name} was #{Date.today.strftime('%B %d, %Y')}",
-        @merchant.name => "6,000. Top selling date for #{@merchant.name} was #{Date.today.strftime('%B %d, %Y')}",
-        merchant1.name => "5,400. Top selling date for #{merchant1.name} was #{Date.today.strftime('%B %d, %Y')}"
+        merchant4.name => "8,400. Top selling date for #{merchant4.name} was #{invoice_item.created_at.strftime('%B %d, %Y')}",
+        @merchant.name => "6,000. Top selling date for #{@merchant.name} was #{invoice_item.created_at.strftime('%B %d, %Y')}",
+        @merchant.name => "6,000. Top selling date for #{@merchant.name} was #{invoice_item.created_at.strftime('%B %d, %Y')}",
+        @merchant.name => "6,000. Top selling date for #{@merchant.name} was #{invoice_item.created_at.strftime('%B %d, %Y')}",
+        merchant1.name => "5,400. Top selling date for #{merchant1.name} was #{invoice_item.created_at.strftime('%B %d, %Y')}"
       }
 
       expect(Item.top_merchants).to eq(expected)

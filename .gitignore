@@ -49,3 +49,5 @@ amplifytools.xcconfig
 .secret-*
 .vscode/
 amplify/
+# Ignore application configuration
+/config/application.yml

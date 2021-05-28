@@ -104,7 +104,7 @@ RSpec.describe 'As a admin' do
       create(:transaction, invoice_id: invoice7.id)
       create(:transaction, invoice_id: invoice8.id)
 
-      create(:invoice_item, invoice_id: invoice1.id, item_id: item1.id, quantity: 3, unit_price: 700)
+      invoice_item = create(:invoice_item, invoice_id: invoice1.id, item_id: item1.id, quantity: 3, unit_price: 700)
       create(:invoice_item, invoice_id: invoice2.id, item_id: item3.id, quantity: 3, unit_price: 200)
       create(:invoice_item, invoice_id: invoice3.id, item_id: item4.id, quantity: 3, unit_price: 900)
       create(:invoice_item, invoice_id: invoice4.id, item_id: item1.id, quantity: 3, unit_price: 200)
@@ -116,11 +116,11 @@ RSpec.describe 'As a admin' do
 
       within '.top-5-merchants' do
         expect(page).to have_link(merchant4.name)
-        expect(page).to have_content("#{merchant4.name}-$8,400. Top selling date for #{merchant4.name} was #{Date.today.strftime('%B %d, %Y')}")
-        expect(page).to have_content("#{merchant1.name}-$5,400. Top selling date for #{merchant1.name} was #{Date.today.strftime('%B %d, %Y')}")
-        expect(page).to have_content("#{merchant3.name}-$2,400. Top selling date for #{merchant3.name} was #{Date.today.strftime('%B %d, %Y')}")
-        expect(page).to have_content("#{merchant5.name}-$900. Top selling date for #{merchant5.name} was #{Date.today.strftime('%B %d, %Y')}")
-        expect(page).to have_content("#{merchant2.name}-$300. Top selling date for #{merchant2.name} was #{Date.today.strftime('%B %d, %Y')}")
+        expect(page).to have_content("#{merchant4.name}-$8,400. Top selling date for #{merchant4.name} was #{invoice_item.created_at.strftime('%B %d, %Y')}")
+        expect(page).to have_content("#{merchant1.name}-$5,400. Top selling date for #{merchant1.name} was #{invoice_item.created_at.strftime('%B %d, %Y')}")
+        expect(page).to have_content("#{merchant3.name}-$2,400. Top selling date for #{merchant3.name} was #{invoice_item.created_at.strftime('%B %d, %Y')}")
+        expect(page).to have_content("#{merchant5.name}-$900. Top selling date for #{merchant5.name} was #{invoice_item.created_at.strftime('%B %d, %Y')}")
+        expect(page).to have_content("#{merchant2.name}-$300. Top selling date for #{merchant2.name} was #{invoice_item.created_at.strftime('%B %d, %Y')}")
 
         click_link merchant4.name
       end
