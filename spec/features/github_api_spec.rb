@@ -29,5 +29,25 @@ RSpec.describe 'As a admin or visitor' do
 
       expect(page).to have_content('Authors: kevxo, BrianZanti, timomitchel, scottalexandra')
     end
+
+    it 'should see the commit count for each contributor' do
+      visit '/admin'
+
+      within '.commit-count' do
+        expect(page).to have_content('Commits: kevxo - 146 BrianZanti - 39 timomitchel - 9 scottalexandra - 3')
+      end
+
+      visit '/admin/merchants'
+
+      within '.commit-count' do
+        expect(page).to have_content('Commits: kevxo - 146 BrianZanti - 39 timomitchel - 9 scottalexandra - 3')
+      end
+
+      visit '/admin/invoices'
+
+      within '.commit-count' do
+        expect(page).to have_content('Commits: kevxo - 146 BrianZanti - 39 timomitchel - 9 scottalexandra - 3')
+      end
+    end
   end
 end
