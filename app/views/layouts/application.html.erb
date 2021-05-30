@@ -12,6 +12,12 @@
   <body>
     <h1><%= @repo_name %></h1>
     <h3>Authors: <%= @collaborators %></h3>
+    <h3 class="commit-count">Commits:
+    <% @commits.each do |commit|%>
+       <%= commit[0] %> - <%= commit[1] %>
+    <% end %>
+    </h3>
+
     <% flash.each do |type, message| %>
       <p class="error_message"><b><%= message %></b>*</p>
     <% end %>
