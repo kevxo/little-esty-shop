@@ -10,7 +10,7 @@ RSpec.describe 'As a admin' do
       @merchant5 = create(:merchant)
     end
 
-    it 'should see the name of each merchant in the system' do
+    it 'should see the name of each merchant in the system', :vcr do
       visit '/admin/merchants'
 
       within '.all-merchants' do
@@ -22,7 +22,7 @@ RSpec.describe 'As a admin' do
       end
     end
 
-    it 'should click on name and be directed to the merchant show page' do
+    it 'should click on name and be directed to the merchant show page', :vcr do
       visit '/admin/merchants'
 
       within '.all-merchants' do
@@ -36,7 +36,7 @@ RSpec.describe 'As a admin' do
       expect(page).to_not have_content(@merchant2.name)
     end
 
-    it 'should see a button to enable or disable a merchant and update the merchants status' do
+    it 'should see a button to enable or disable a merchant and update the merchants status', :vcr do
       visit '/admin/merchants'
 
       within ".merchant-#{@merchant1.id}" do
@@ -48,7 +48,7 @@ RSpec.describe 'As a admin' do
       expect(current_path).to eq('/admin/merchants')
     end
 
-    it 'should see a link to create a new merchant and when I click be redirected to a form' do
+    it 'should see a link to create a new merchant and when I click be redirected to a form', :vcr do
       visit '/admin/merchants'
 
       expect(page).to have_link('Create a new Merchant')
@@ -67,7 +67,7 @@ RSpec.describe 'As a admin' do
       end
     end
 
-    it 'should see the top 5 merchants by total revenue and each name links to their show page and top selling date' do
+    it 'should see the top 5 merchants by total revenue and each name links to their show page and top selling date', :vcr do
       merchant1 = create(:merchant, name: 'John')
       merchant2 = create(:merchant, name: 'Danny')
       merchant3 = create(:merchant, name: 'Oscar')
@@ -130,7 +130,7 @@ RSpec.describe 'As a admin' do
   end
 
   describe 'When I visit the merchants show page' do
-    it 'should see a link to update the merchant and see a flash message after update' do
+    it 'should see a link to update the merchant and see a flash message after update', :vcr do
       merchant = create(:merchant)
 
       visit "/admin/merchants/#{merchant.id}"

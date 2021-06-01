@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'As a Admin' do
   describe 'When I visit the admin Invoices Index' do
-    it 'should see a list of Ivoice ids that link to invoice show page' do
+    it 'should see a list of Ivoice ids that link to invoice show page', :vcr do
       invoice1 = create(:invoice)
       invoice2 = create(:invoice)
       invoice3 = create(:invoice)
@@ -23,7 +23,7 @@ RSpec.describe 'As a Admin' do
   end
 
   describe 'When I visit the invoice show page' do
-    it 'should see all of the invoice information including the customer full name' do
+    it 'should see all of the invoice information including the customer full name', :vcr do
       customer = create(:customer)
       invoice1 = create(:invoice, customer_id: customer.id)
 
@@ -37,7 +37,7 @@ RSpec.describe 'As a Admin' do
       end
     end
 
-    it 'should see all the items in the invoice with name, quantity, price, and status' do
+    it 'should see all the items in the invoice with name, quantity, price, and status', :vcr do
       merchant = create(:merchant)
       customer = create(:customer)
 
@@ -68,7 +68,7 @@ RSpec.describe 'As a Admin' do
       end
     end
 
-    it 'should see the total revenue generated from the invoice' do
+    it 'should see the total revenue generated from the invoice', :vcr do
       merchant = create(:merchant)
       customer = create(:customer)
 
@@ -87,7 +87,7 @@ RSpec.describe 'As a Admin' do
       expect(page).to have_content("Total Revenue $#{invoice.total_revenue}")
     end
 
-    it 'should update invoice status' do
+    it 'should update invoice status', :vcr do
       merchant = create(:merchant)
       customer = create(:customer)
 
