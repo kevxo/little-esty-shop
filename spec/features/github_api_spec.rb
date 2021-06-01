@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe 'As a admin or visitor' do
   describe 'When I visit any page on the site' do
-    it 'should see the name of the GitHub repo somewhere on the site' do
+    it 'should see the name of the GitHub repo somewhere on the site', :vcr do
       visit '/admin'
 
       expect(page).to have_content('little-esty-shop')
@@ -16,7 +16,7 @@ RSpec.describe 'As a admin or visitor' do
       expect(page).to have_content('little-esty-shop')
     end
 
-    it 'should see my username and teamates username' do
+    it 'should see my username and teamates username', :vcr do
       visit '/admin'
 
       expect(page).to have_content('Authors: kevxo, BrianZanti, timomitchel, scottalexandra')
@@ -30,7 +30,7 @@ RSpec.describe 'As a admin or visitor' do
       expect(page).to have_content('Authors: kevxo, BrianZanti, timomitchel, scottalexandra')
     end
 
-    it 'should see the commit count for each contributor' do
+    it 'should see the commit count for each contributor', :vcr do
       visit '/admin'
 
       within '.commit-count' do
@@ -50,7 +50,7 @@ RSpec.describe 'As a admin or visitor' do
       end
     end
 
-    it 'should see a list of closed PRS' do
+    it 'should see a list of closed PRS', :vcr do
       visit '/admin'
 
       within '.pull-requests' do

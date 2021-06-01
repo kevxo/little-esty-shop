@@ -45,7 +45,7 @@ RSpec.describe 'As a merchant' do
       create(:invoice_item, invoice_id: @invoice5.id, item_id: @item4.id, quantity: 3, unit_price: 500)
     end
 
-    it 'should see a list of all my items' do
+    it 'should see a list of all my items', :vcr do
       merchant = create(:merchant)
 
       item1 = create(:item, merchant_id: merchant.id)
@@ -61,7 +61,7 @@ RSpec.describe 'As a merchant' do
       end
     end
 
-    it 'should not see other merchants items' do
+    it 'should not see other merchants items', :vcr do
       merchant = create(:merchant)
       merchant2 = create(:merchant)
 
@@ -78,7 +78,7 @@ RSpec.describe 'As a merchant' do
       end
     end
 
-    it 'should see a button to disable or enable an Item' do
+    it 'should see a button to disable or enable an Item', :vcr do
       merchant = create(:merchant)
 
       create(:item, merchant_id: merchant.id)
@@ -94,7 +94,7 @@ RSpec.describe 'As a merchant' do
       end
     end
 
-    it 'should change item status when clicking button from disabled to enabled' do
+    it 'should change item status when clicking button from disabled to enabled', :vcr do
       merchant = create(:merchant)
 
       create(:item, merchant_id: merchant.id)
@@ -112,7 +112,7 @@ RSpec.describe 'As a merchant' do
       end
     end
 
-    it 'should change item status when clicking button from enabled to disabled' do
+    it 'should change item status when clicking button from enabled to disabled', :vcr do
       merchant = create(:merchant)
 
       create(:item, merchant_id: merchant.id, status: 'Disabled')
@@ -130,7 +130,7 @@ RSpec.describe 'As a merchant' do
       end
     end
 
-    it 'should see that enabled and disabled items have their own sections.' do
+    it 'should see that enabled and disabled items have their own sections.', :vcr do
       merchant = create(:merchant)
 
       item1 = create(:item, merchant_id: merchant.id)
@@ -144,8 +144,7 @@ RSpec.describe 'As a merchant' do
       expect(all('.enabled-items')[2]).to have_content(item3.name)
     end
 
-
-    it 'should see link to create an Item and it should take me to  a form' do
+    it 'should see link to create an Item and it should take me to  a form', :vcr do
       merchant = create(:merchant)
 
       create(:item, merchant_id: merchant.id)
@@ -162,7 +161,7 @@ RSpec.describe 'As a merchant' do
       expect(page).to have_content('New Item')
     end
 
-    it 'should see top 5 popular items by revenue generated' do
+    it 'should see top 5 popular items by revenue generated', :vcr do
       visit "/merchant/#{@merchant.id}/items"
 
       expect(all('.top-5-popular')[0]).to have_content(@item3.name)
@@ -174,7 +173,7 @@ RSpec.describe 'As a merchant' do
   end
 
   describe 'When I click on an item' do
-    it 'should take me to the item show page and the items attributes' do
+    it 'should take me to the item show page and the items attributes', :vcr do
       merchant = create(:merchant)
 
       item1 = create(:item, merchant_id: merchant.id)
@@ -196,7 +195,7 @@ RSpec.describe 'As a merchant' do
       end
     end
 
-    it "should have a link to update an Item" do
+    it 'should have a link to update an Item', :vcr do
       merchant = create(:merchant)
 
       item1 = create(:item, merchant_id: merchant.id)
@@ -209,7 +208,7 @@ RSpec.describe 'As a merchant' do
       expect(current_path).to eq("/merchant/#{merchant.id}/items/#{item1.id}/edit")
     end
 
-    it "should fill out a form to update Item" do
+    it 'should fill out a form to update Item', :vcr do
       merchant = create(:merchant)
 
       item1 = create(:item, merchant_id: merchant.id)
@@ -228,7 +227,7 @@ RSpec.describe 'As a merchant' do
   end
 
   describe 'Create a new Item' do
-    it 'should fill out item information and have a disabled as my default status' do
+    it 'should fill out item information and have a disabled as my default status', :vcr do
       merchant = create(:merchant)
 
       visit "/merchant/#{merchant.id}/items/new"

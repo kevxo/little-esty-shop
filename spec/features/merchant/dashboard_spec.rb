@@ -45,7 +45,7 @@ RSpec.describe 'Merchant Dashboard' do
         create(:invoice_item, invoice_id: @invoice5.id, item_id: @item4.id)
       end
 
-      it 'should see the name of my merchant' do
+      it 'should see the name of my merchant', :vcr do
         merchant = create(:merchant)
 
         visit "/merchant/#{merchant.id}/dashboard"
@@ -53,7 +53,7 @@ RSpec.describe 'Merchant Dashboard' do
         expect(page).to have_content(merchant.name)
       end
 
-      it 'should see links to items index and invoices index' do
+      it 'should see links to items index and invoices index', :vcr do
         merchant = create(:merchant)
 
         visit "merchant/#{merchant.id}/dashboard"
@@ -64,7 +64,7 @@ RSpec.describe 'Merchant Dashboard' do
         end
       end
 
-      it 'should see top 5 customers with successful transactions with merchant ' do
+      it 'should see top 5 customers with successful transactions with merchant ', :vcr do
         visit "/merchant/#{@merchant.id}/dashboard"
 
         within '.top-5-customers' do
@@ -77,7 +77,7 @@ RSpec.describe 'Merchant Dashboard' do
         end
       end
 
-      it 'should see list of unshipped items with invoice id and date. From older to new' do
+      it 'should see list of unshipped items with invoice id and date. From older to new', :vcr do
         visit "/merchant/#{@merchant.id}/dashboard"
         @item1.ready_to_ship do |invoice|
           within '.ready-to-ship' do

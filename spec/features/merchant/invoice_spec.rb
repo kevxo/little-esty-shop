@@ -45,7 +45,7 @@ RSpec.describe 'As a Merchant' do
       create(:invoice_item, invoice_id: @invoice5.id, item_id: @item4.id, quantity: 3, unit_price: 500)
     end
 
-    it 'should see the invoices that include at least one of my merchants item' do
+    it 'should see the invoices that include at least one of my merchants item', :vcr do
       visit "/merchant/#{@merchant.id}/invoices"
 
       expect(page).to have_content('Invoices')
@@ -101,7 +101,8 @@ RSpec.describe 'As a Merchant' do
       create(:transaction, invoice_id: @invoice7.id)
       create(:transaction, invoice_id: @invoice8.id)
 
-      @invoice_item1 = create(:invoice_item, invoice_id: @invoice1.id, item_id: @item1.id, status: 1, quantity: 3, unit_price: 500)
+      @invoice_item1 = create(:invoice_item, invoice_id: @invoice1.id, item_id: @item1.id, status: 1, quantity: 3,
+                                             unit_price: 500)
       create(:invoice_item, invoice_id: @invoice2.id, item_id: @item3.id, quantity: 3, unit_price: 500)
       create(:invoice_item, invoice_id: @invoice3.id, item_id: @item4.id, quantity: 3, unit_price: 500)
       create(:invoice_item, invoice_id: @invoice4.id, item_id: @item1.id, quantity: 3, unit_price: 500)
@@ -111,7 +112,7 @@ RSpec.describe 'As a Merchant' do
       create(:invoice_item, invoice_id: @invoice5.id, item_id: @item4.id, quantity: 3, unit_price: 500)
     end
 
-    it 'should see the invoice information id, status, created_at as Date, cutomer first and last name' do
+    it 'should see the invoice information id, status, created_at as Date, cutomer first and last name', :vcr do
       visit "/merchant/#{@merchant.id}/invoices/#{@invoice1.id}"
 
       within '.invoice' do
@@ -122,28 +123,28 @@ RSpec.describe 'As a Merchant' do
       end
     end
 
-    it 'should be able to see invoice items information name, quantity, status, price.' do
+    it 'should be able to see invoice items information name, quantity, status, price.', :vcr do
       visit "/merchant/#{@merchant.id}/invoices/#{@invoice1.id}"
 
       within '.invoice-items' do
         expect(page).to have_content(@item1.name)
         expect(page).to have_content("Quantity: #{@invoice_item1.quantity}")
         expect(page).to have_content("Price: $#{@invoice_item1.unit_price}")
-        expect(page).to have_content("Status: packaged pending shipped")
+        expect(page).to have_content('Status: packaged pending shipped')
       end
     end
 
-    it 'should show the total revenue for an invoice' do
+    it 'should show the total revenue for an invoice', :vcr do
       visit "/merchant/#{@merchant.id}/invoices/#{@invoice1.id}"
 
       expect(page).to have_content("Total Revenue: $#{@invoice1.total_revenue}")
     end
 
-    it 'should be able to update item status' do
+    it 'should be able to update item status', :vcr do
       visit "/merchant/#{@merchant.id}/invoices/#{@invoice1.id}"
 
       within "##{@invoice_item1.id}" do
-        select 'packaged', :from => 'status'
+        select 'packaged', from: 'status'
 
         click_button 'Update Item Status'
       end

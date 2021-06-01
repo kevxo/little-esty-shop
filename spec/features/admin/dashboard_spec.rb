@@ -44,13 +44,13 @@ RSpec.describe 'As a Admin' do
       create(:invoice_item, invoice_id: @invoice5.id, item_id: @item4.id)
     end
 
-    it 'should see a header indicating that im in admin dashboard' do
+    it 'should see a header indicating that im in admin dashboard', :vcr do
       visit '/admin'
 
       expect(page).to have_content('Welcome to The Admin Dashboard')
     end
 
-    it 'should see links to the admin merchants and the admin invoices' do
+    it 'should see links to the admin merchants and the admin invoices', :vcr do
       visit '/admin'
 
       expect(page).to have_link('Admin Merchants')
@@ -67,7 +67,7 @@ RSpec.describe 'As a Admin' do
       expect(current_path).to eq('/admin/invoices')
     end
 
-    it 'should see the top 5 customers with successful transactions' do
+    it 'should see the top 5 customers with successful transactions', :vcr do
       visit '/admin'
 
       within '.top-5-customers' do
@@ -81,7 +81,7 @@ RSpec.describe 'As a Admin' do
     end
 
     it 'should see a section incomplete invoices where I see a list of Ids of all invoices
-    that have items that have not yet been shipped. Ids link to show page' do
+    that have items that have not yet been shipped. Ids link to show page', :vcr do
       visit '/admin'
 
       @item1.ready_to_ship do |invoice|
